@@ -44,10 +44,10 @@ steps:
     downloadPath: '$(System.ArtifactsDirectory)'
 
 - task: AzureKeyVault@2
-  displayName: 'Azure Key Vault: kval '
+  displayName: 'Azure Key Vault: kvault'
   inputs:
-    azureSubscription: AzureRM
-    KeyVaultName: ''
+    azureSubscription: 'AzureRM'
+    KeyVaultName: 'kval'
 
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
@@ -64,9 +64,9 @@ steps:
 
 
 - task: AzureWebApp@1
-  displayName: 'deploy to webapp'
+  displayName: 'Deploy to Azure Webapp'
   inputs:
-    azureSubscription: AzureRM
+    azureSubscription: 'AzureRM'
     appType: webApp
     appName: $(webappName)
     package: $(System.ArtifactsDirectory)/target/ROOT.war
