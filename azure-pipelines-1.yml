@@ -56,18 +56,32 @@ steps:
     azureSubscription: AzureRM
     KeyVaultName: 'kval'
 
-- task: AzureResourceGroupDeployment@2
-  displayName: 'Resource Deployment'
+# - task: AzureResourceGroupDeployment@2
+#   displayName: 'Resource Deployment'
+#   inputs:
+#     azureSubscription: AzureRM
+#     action: Create Or Update Resource Group
+#     resourceGroupName: $(resourcegroup)
+#     location: 'East US 2'
+#     templateLocation: Linked artifact
+#     csmFileLink: $(System.ArtifactsDirectory)/**/azurepolicy.json
+#     overrideParameters: -webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)
+#     deploymentMode: Complete
+#     enableDeploymentPrerequisites: None
+
+- task: AzureResourceManagerTemplateDeployment@3
   inputs:
-    azureSubscription: AzureRM
-    action: Create Or Update Resource Group
-    resourceGroupName: $(resourcegroup)
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'AzureRM'
+    subscriptionId: 'ab1ad37f-a64b-457e-9de2-d6589579fe0c'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: '$(resourcegroup)'
     location: 'East US 2'
-    templateLocation: Linked artifact
-    csmFileLink: $(System.ArtifactsDirectory)/**/azurepolicy.json
-    overrideParameters: -webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)
-    deploymentMode: Complete
-    enableDeploymentPrerequisites: None
+    templateLocation: 'Linked artifact'
+    csmFile: '$(System.ArtifactsDirectory)/**/azurepolicy.json'
+    overrideParameters: '-webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)'
+    deploymentMode: 'Incremental'
+
 
 - task: AzureWebApp@1
   displayName: 'deploy to webapp'
