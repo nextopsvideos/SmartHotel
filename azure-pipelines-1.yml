@@ -54,7 +54,7 @@ steps:
     resourceGroupName: $(resourcegroup)
     location: 'East US 2'
     templateLocation: Linked artifact
-    csmFileLink: $(System.ArtifactsDirectory)/**/azuredeploy.json
+    csmFileLink: /home/vsts/work/1/a/drop/azurepolicy.json
     overrideParameters: -webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)
     deploymentMode: Complete
     enableDeploymentPrerequisites: None
@@ -65,4 +65,4 @@ steps:
     azureSubscription: AzureRM
     appType: webApp
     appName: $(webappName)
-    package: $(System.ArtifactsDirectory)/**/*.war
+    package: /home/vsts/work/1/a/drop/*.war
