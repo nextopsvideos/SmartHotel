@@ -1,0 +1,24 @@
+pool:
+  name: Azure Pipelines
+  demands: maven
+
+#Your build pipeline references an undefined variable named ‘Parameters.flattenFolders’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+
+steps:
+- task: Maven@3
+  displayName: 'Build Maven'
+
+- task: CopyFiles@2
+  displayName: 'Copy files to staging folder'
+  inputs:
+    SourceFolder: '$(build.sourcesdirectory)'
+    Contents: |
+     **/*.war
+     *.json
+     
+    TargetFolder: '$(build.artifactstagingdirectory)'
+    flattenFolders: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts '
+
