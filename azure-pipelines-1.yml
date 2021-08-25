@@ -37,6 +37,8 @@ steps:
 
 - task: DownloadBuildArtifacts@1
   displayName: 'Download build artifacts'
+  inputs:
+    downloadPath: $(System.ArtifactsDirectory)
 
 - task: AzureKeyVault@2
   displayName: 'Azure Key Vault: kval '
@@ -52,7 +54,7 @@ steps:
     resourceGroupName: $(resourcegroup)
     location: 'East US 2'
     templateLocation: Linked artifact
-    csmFileLink: $(System.DefaultWorkingDirectory)/**/azuredeploy.json
+    csmFileLink: $(System.ArtifactsDirectory)/**/azuredeploy.json
     overrideParameters: -webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)
     deploymentMode: Complete
     enableDeploymentPrerequisites: None
@@ -63,4 +65,4 @@ steps:
     azureSubscription: AzureRM
     appType: webApp
     appName: $(webappName)
-    package: $(System.DefaultWorkingDirectory)/**/*.war
+    package: $(System.ArtifactsDirectory)/**/*.war
