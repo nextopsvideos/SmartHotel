@@ -34,3 +34,32 @@ steps:
   displayName: 'Publish build artifacts'
   inputs:
     ArtifactName: drop
+
+- task: DownloadBuildArtifacts@1
+  displayName: 'Download build artifacts'
+
+- task: AzureKeyVault@2
+  displayName: 'Azure Key Vault: SMCoupon '
+  inputs:
+    azureSubscription: 
+    KeyVaultName: 'SMCoupon'
+
+- task: AzureResourceGroupDeployment@2
+  displayName: 'Resource Deployment'
+  inputs:
+    azureSubscription: 
+    action: Create Or Update Resource Group
+    resourceGroupName: $(resourcegroup)
+    location: 'East US 2'
+    templateLocation: Linked artifact
+    teamProject: $(System.DefaultWorkingDirectory)/_SmartHotel-CouponManagement-Docker container-CI/drop/azuredeploy.json
+    csmParametersFile: -webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)
+    deploymentMode: Incremental
+    enableDeploymentPrerequisites: None
+
+- task: AzureWebApp@1
+  displayName: 'deploy to webapp'
+  inputs:
+    azureSubscription: 
+    appName: $(webappName)
+    package: $(System.DefaultWorkingDirectory)/**/*.war
