@@ -35,10 +35,17 @@ steps:
   inputs:
     ArtifactName: drop
 
-- task: DownloadBuildArtifacts@1
-  displayName: 'Download build artifacts'
+# - task: DownloadBuildArtifacts@1
+#   displayName: 'Download build artifacts'
+#   inputs:
+#     downloadPath: $(System.ArtifactsDirectory)
+
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download pipeline artifacts'
   inputs:
-    downloadPath: $(System.ArtifactsDirectory)
+    source: 'current'
+    artifactName: 'drop'
+    targetPath: $(System.ArtifactsDirectory)
 
 - task: AzureKeyVault@2
   displayName: 'Azure Key Vault: kval '
@@ -54,7 +61,7 @@ steps:
     resourceGroupName: $(resourcegroup)
     location: 'East US 2'
     templateLocation: Linked artifact
-    csmFileLink: /home/vsts/work/1/a/drop/azurepolicy.json
+    csmFileLink: $(System.ArtifactsDirectory)/**/azurepolicy.json
     overrideParameters: -webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)
     deploymentMode: Complete
     enableDeploymentPrerequisites: None
@@ -65,4 +72,4 @@ steps:
     azureSubscription: AzureRM
     appType: webApp
     appName: $(webappName)
-    package: /home/vsts/work/1/a/drop/*.war
+    package: $(System.ArtifactsDirectory)/**/*.war
