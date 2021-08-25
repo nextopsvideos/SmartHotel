@@ -89,4 +89,4 @@ steps:
     azureSubscription: AzureRM
     appType: webApp
     appName: $(webappName)
-    package: $(System.ArtifactsDirectory)/*.war
+    package: $(System.ArtifactsDirectory)/target/ROOT.war
