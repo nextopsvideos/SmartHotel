@@ -54,7 +54,7 @@ steps:
     templateLocation: Linked artifact
     teamProject: $(System.DefaultWorkingDirectory)/_SmartHotel-CouponManagement-Docker container-CI/drop/azuredeploy.json
     csmParametersFile: -webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)
-    deploymentMode: Incremental
+    deploymentMode: Complete
     enableDeploymentPrerequisites: None
 
 - task: AzureWebApp@1
