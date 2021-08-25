@@ -52,7 +52,7 @@ steps:
     resourceGroupName: $(resourcegroup)
     location: 'East US 2'
     templateLocation: Linked artifact
-    teamProject: $(System.DefaultWorkingDirectory)/_SmartHotel-CouponManagement-Docker container-CI/drop/azuredeploy.json
+    teamProject: $(System.DefaultWorkingDirectory)/**/azuredeploy.json
     csmParametersFile: -webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)
     deploymentMode: Complete
     enableDeploymentPrerequisites: None
