@@ -35,17 +35,20 @@ steps:
   inputs:
     ArtifactName: drop
 
-# - task: DownloadBuildArtifacts@1
-#   displayName: 'Download build artifacts'
-#   inputs:
-#     downloadPath: $(System.ArtifactsDirectory)
 
-- task: DownloadPipelineArtifact@2
-  displayName: 'Download pipeline artifacts'
+- task: DownloadBuildArtifacts@1
   inputs:
-    source: 'current'
+    buildType: 'current'
+    downloadType: 'single'
     artifactName: 'drop'
-    targetPath: $(System.ArtifactsDirectory)
+    downloadPath: '$(System.ArtifactsDirectory)'
+
+# - task: DownloadPipelineArtifact@2
+#   displayName: 'Download pipeline artifacts'
+#   inputs:
+#     source: 'current'
+#     artifactName: 'drop'
+#     targetPath: $(System.ArtifactsDirectory)
 
 - task: AzureKeyVault@2
   displayName: 'Azure Key Vault: kval '
