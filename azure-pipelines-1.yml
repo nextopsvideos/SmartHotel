@@ -41,13 +41,13 @@ steps:
 - task: AzureKeyVault@2
   displayName: 'Azure Key Vault: SMCoupon '
   inputs:
-    azureSubscription: 
+    azureSubscription: AzureRM
     KeyVaultName: 'SMCoupon'
 
 - task: AzureResourceGroupDeployment@2
   displayName: 'Resource Deployment'
   inputs:
-    azureSubscription: 
+    azureSubscription: AzureRM
     action: Create Or Update Resource Group
     resourceGroupName: $(resourcegroup)
     location: 'East US 2'
@@ -60,6 +60,7 @@ steps:
 - task: AzureWebApp@1
   displayName: 'deploy to webapp'
   inputs:
-    azureSubscription: 
+    azureSubscription: AzureRM
+    appType: webApp
     appName: $(webappName)
     package: $(System.DefaultWorkingDirectory)/**/*.war
