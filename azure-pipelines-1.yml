@@ -78,7 +78,7 @@ steps:
     resourceGroupName: '$(resourcegroup)'
     location: 'East US 2'
     templateLocation: 'Linked artifact'
-    csmFile: '$(System.ArtifactsDirectory)/**/azurepolicy.json'
+    csmFile: '$(System.ArtifactsDirectory)/azuredeploy.json'
     overrideParameters: '-webAppName $(webappName) -mySQLAdminLoginName "azureuser" -mySQLAdminLoginPassword $(sqldbpassword)'
     deploymentMode: 'Incremental'
 
