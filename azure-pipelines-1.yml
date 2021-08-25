@@ -39,10 +39,10 @@ steps:
   displayName: 'Download build artifacts'
 
 - task: AzureKeyVault@2
-  displayName: 'Azure Key Vault: SMCoupon '
+  displayName: 'Azure Key Vault: kval '
   inputs:
     azureSubscription: AzureRM
-    KeyVaultName: 'SMCoupon'
+    KeyVaultName: 'kval'
 
 - task: AzureResourceGroupDeployment@2
   displayName: 'Resource Deployment'
