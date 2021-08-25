@@ -1,24 +1,36 @@
-pool:
-  name: Azure Pipelines
-  demands: maven
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
-#Your build pipeline references an undefined variable named ‘Parameters.flattenFolders’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
 
 steps:
 - task: Maven@3
-  displayName: 'Build Maven'
+  inputs:
+    mavenPomFile: 'pom.xml'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'package'
 
 - task: CopyFiles@2
-  displayName: 'Copy files to staging folder'
+  displayName: 'Copy files to target folder'
   inputs:
-    SourceFolder: '$(build.sourcesdirectory)'
+    SourceFolder: $(build.sourcesdirectory)
     Contents: |
      **/*.war
      *.json
-     
-    TargetFolder: '$(build.artifactstagingdirectory)'
-    flattenFolders: true
+    TargetFolder: $(build.artifactstagingdirectory)
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish artifacts '
-
+  displayName: 'Publish build artifacts'
+  inputs:
+    ArtifactName: drop
